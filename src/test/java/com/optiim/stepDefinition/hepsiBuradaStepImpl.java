@@ -4,10 +4,12 @@ import com.optiim.pages.Cartpage;
 import com.optiim.pages.DashboardPage;
 import com.optiim.pages.LoginPage;
 import com.optiim.utilities.DriverFactory;
+import com.optiim.utilities.LogHelper;
 import com.optiim.utilities.ReadProperties;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
@@ -26,8 +28,8 @@ public class hepsiBuradaStepImpl {
     Cartpage cartpage = new Cartpage();
     DashboardPage dashboardPage = new DashboardPage();
     LoginPage loginPage = new LoginPage();
-    Actions actions = new Actions(DriverFactory.getDriver());
-    WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(25));
+    Actions actions = new Actions(driver);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25));
     private String productName = "";
 
 
@@ -35,28 +37,31 @@ public class hepsiBuradaStepImpl {
     public void kullanıcı_url_ine_gider(String url) {
         String testURL = ReadProperties.getProperty("testURL");
         driver.get(testURL);
+        LogHelper.log(hepsiBuradaStepImpl.class,url+" ine navigate olunur");
     }
     @Then("{string} sayfasına gidildiği doğrulanır.")
     public void sayfasına_gidildiği_doğrulanır(String url) {
         assertTrue(driver.getCurrentUrl().equals(url));
+        LogHelper.log(hepsiBuradaStepImpl.class,url+" ine navigate olunduğu doğrulanır");
     }
 
     @Then("Çerezleri kabul et butonuna tıklanır.")
     public void çerezleri_kabul_et_butonuna_tıklanır() throws InterruptedException {
-        System.out.println("test");
-        Thread.sleep(20000);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//button[.='Kabul et']"))));
+        driver.findElement(By.xpath("//button[.='Kabul et']")).click();
+        LogHelper.log(hepsiBuradaStepImpl.class,"cerezleri kabul et butonuna tıklanır");
     }
     @Given("Kullanıcı giriş yap butonuna tıklar.")
     public void kullanıcı_giriş_yap_butonuna_tıklar() throws InterruptedException {
         wait.until(ExpectedConditions.elementToBeClickable(loginPage.girisYapButton));
-        actions.moveToElement(loginPage.girisYapButton)
-                .moveToElement(loginPage.girisYapLink)
-                .click().perform();
+        loginPage.girisYapButton.click();
+        loginPage.girisYapLink.click();
+
     }
     @Then("Kullanıcı login sayfasının geldiğini doğrular.")
     public void kullanıcı_login_sayfasının_geldiğini_doğrular() {
-        wait.until(ExpectedConditions.visibilityOf(loginPage.girisYapLink));
-        assertTrue(loginPage.girisYapLink.isDisplayed());
+        wait.until(ExpectedConditions.visibilityOf(loginPage.loginPageGirisYapButtonEmail));
+        assertTrue(loginPage.loginPageGirisYapButtonEmail.isDisplayed());
     }
     @Then("Kullanıcı e-posta adresi olarak {string} değerini girer")
     public void kullanıcı_e_posta_adresi_olarak_değerini_girer(String email) {

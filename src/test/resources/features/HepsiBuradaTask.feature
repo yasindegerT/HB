@@ -9,7 +9,7 @@ Feature: Hepsiburada OPTIIM Task
     Scenario: Sepete ekleme ve çıkarma kontrolleri senaryosu
       Given Kullanıcı giriş yap butonuna tıklar.
       When Kullanıcı login sayfasının geldiğini doğrular.
-      And Kullanıcı e-posta adresi olarak "huter_1325@hotmail.com" değerini girer
+      And Kullanıcı e-posta adresi olarak "mehmetfurkangergin@gmail.com" değerini girer
       And E-posta sayfası giriş yap butonuna tıklar.
       Then Kullanıcı password değeri olarak "1719.Sefa" değerini girer
       And Password sayfası giriş yap butonuna tıklar.
