@@ -25,8 +25,6 @@ import static org.junit.Assert.assertTrue;
 
 public class hepsiBuradaStepImpl {
 
-    private static Logger logger = LogManager.getLogger(hepsiBuradaStepImpl.class);
-
     WebDriver driver = DriverFactory.getDriver();
     Cartpage cartpage = new Cartpage();
     DashboardPage dashboardPage = new DashboardPage();
@@ -40,20 +38,16 @@ public class hepsiBuradaStepImpl {
     public void kullanıcı_url_ine_gider(String url) {
         String testURL = ReadProperties.getProperty("testURL");
         driver.get(testURL);
-        logger.info("merhaba");
-        logger.info(url+" ine navigate olunur");
     }
     @Then("{string} sayfasına gidildiği doğrulanır.")
     public void sayfasına_gidildiği_doğrulanır(String url) {
         assertTrue(driver.getCurrentUrl().equals(url));
-        logger.info(url+" ine navigate olunduğu doğrulanır");
     }
 
     @Then("Çerezleri kabul et butonuna tıklanır.")
     public void çerezleri_kabul_et_butonuna_tıklanır() throws InterruptedException {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//button[.='Kabul et']"))));
         driver.findElement(By.xpath("//button[.='Kabul et']")).click();
-        logger.info("cerezleri kabul et butonuna tıklanır");
     }
     @Given("Kullanıcı giriş yap butonuna tıklar.")
     public void kullanıcı_giriş_yap_butonuna_tıklar() throws InterruptedException {
